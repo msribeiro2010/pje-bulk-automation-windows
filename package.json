@@ -1,0 +1,43 @@
+{
+  "name": "pje-bulk-kz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "build": "tsc && xcopy /E /I /Y public dist\\public 2>nul || robocopy public dist\\public /E /NFL /NDL /NJH /NJS /nc /ns /np || echo Build completed",
+    "build-unix": "tsc && cp -r public dist/",
+    "dev": "ts-node src/server.ts",
+    "chrome-debug": "start-chrome-debug.bat",
+    "chrome-debug-unix": "./start-chrome-debug.sh",
+    "firefox-debug": "start-firefox-debug.bat",
+    "firefox-debug-unix": "./start-firefox-debug.sh",
+    "connect": "echo '🔗 Conectando à sessão existente...' && ts-node src/index.ts",
+    "connect-dynamic": "ts-node src/connect-dynamic.ts",
+    "connect-firefox": "echo '🦊 Conectando ao Firefox...' && BROWSER_TYPE=firefox ts-node src/index.ts",
+    "manual-login": "LOGIN_WAIT_TIME=120 npm start",
+    "manual-login-firefox": "BROWSER_TYPE=firefox LOGIN_WAIT_TIME=120 npm start",
+    "server": "ts-node src/server.ts",
+    "csv-help": "ts-node src/csv-cli.ts examples",
+    "csv-preview": "ts-node src/csv-cli.ts preview",
+    "csv-run": "ts-node src/csv-cli.ts run",
+    "csv-config": "ts-node src/csv-cli.ts create-config",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^17.2.1",
+    "playwright": "^1.54.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "@types/multer": "^2.0.0",
+    "commander": "^12.1.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}

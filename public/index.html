@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PJE Bulk KZ - Interface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') repeat;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.1);
+            overflow: hidden;
+            position: relative;
+            animation: slideInUp 0.8s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .header h1::before {
+            content: '🤖';
+            margin-right: 15px;
+            font-size: 0.8em;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .header p {
+            font-size: 1.05em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
+        }
+        
+        .form-container {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+            font-size: 0.95em;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 0.9em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Exceção para o campo de órgãos - mantém tamanho original */
+        #orgaos {
+            padding: 15px 18px;
+            font-size: 1em;
+            min-height: 120px;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), 0 8px 25px rgba(102, 126, 234, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+        }
+        
+        input:hover, textarea:hover, select:hover {
+            border-color: #b8c5f2;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn:disabled::before {
+            display: none;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .results h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .success-list, .error-list {
+            margin-bottom: 20px;
+        }
+        
+        .success-item {
+            background: #d4edda;
+            color: #155724;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .error-item {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .robot-animation {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: robotFloat 3s ease-in-out infinite;
+        }
+        
+        .robot-body {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .robot-head {
+            width: 60px;
+            height: 50px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 15px 15px 25px 25px;
+            position: absolute;
+            top: 0;
+            left: 30px;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+        
+        .robot-eyes {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 30px;
+            height: 8px;
+        }
+        
+        .robot-eye {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            animation: robotBlink 2s infinite;
+        }
+        
+        .robot-eye:first-child {
+            left: 0;
+        }
+        
+        .robot-eye:last-child {
+            right: 0;
+        }
+        
+        .robot-arms {
+            position: absolute;
+            top: 35px;
+        }
+        
+        .robot-arm {
+            width: 15px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            position: absolute;
+            animation: robotWave 1.5s ease-in-out infinite alternate;
+        }
+        
+        .robot-arm.left {
+            left: 0;
+            transform-origin: top center;
+        }
+        
+        .robot-arm.right {
+            right: 0;
+            transform-origin: top center;
+            animation-delay: 0.3s;
+        }
+        
+        .processing-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            animation: textPulse 2s ease-in-out infinite;
+        }
+        
+        .processing-subtitle {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+        
+        .progress-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .progress-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes robotFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes robotBlink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0; }
+        }
+        
+        @keyframes robotWave {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(10deg); }
+        }
+        
+        @keyframes textPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        /* Estilos para seleção de método de entrada */
+        .input-method-selector {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            border: 1px solid #e3e6ea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 13px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: #495057;
+            transition: all 0.2s ease;
+            padding: 6px 10px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .radio-option:hover {
+            background: rgba(0, 123, 255, 0.08);
+            color: #007bff;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 10px;
+            width: 16px;
+            height: 16px;
+            accent-color: #007bff;
+        }
+
+        .radio-option input[type="radio"]:checked + span {
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .input-section {
+            margin-top: 15px;
+        }
+
+        /* Estilos para upload de CSV */
+        .csv-upload-area {
+            margin-bottom: 20px;
+        }
+
+        .upload-zone {
+            border: 2px dashed #007bff;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .upload-zone:hover {
+            border-color: #0056b3;
+            background: #e6f3ff;
+        }
+
+        .upload-zone.dragover {
+            border-color: #28a745;
+            background: #e6ffe6;
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .upload-info {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .file-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e8;
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-info .file-icon {
+            font-size: 1.5em;
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #155724;
+        }
+
+        .file-size {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .remove-file {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .remove-file:hover {
+            background: #c82333;
+        }
+
+        /* Estilos para opções do CSV */
+        .csv-options {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            align-items: end;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 25px;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        
+        /* Estilos para o botão de normalização */
+        .normalize-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .normalize-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .normalize-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .chrome-status {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .chrome-status.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .chrome-status.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Estilos para controle da automação */
+        .automation-control {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .automation-control::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 30s linear infinite;
+        }
+        
+        .automation-control h3 {
+            color: #667eea;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.4em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .automation-status {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .automation-status .status-idle {
+            color: #6c757d;
+            font-weight: 600;
+        }
+        
+        .automation-status .status-running {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .automation-status .status-paused {
+            color: #ffc107;
+            font-weight: 600;
+        }
+        
+        .automation-status .status-stopped {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        .automation-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .automation-buttons .btn {
+            width: auto;
+            min-width: 120px;
+            padding: 10px 20px;
+            font-size: 0.95em;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+            color: #212529;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-warning::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-warning:hover::before {
+            left: 100%;
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #e0a800 0%, #d39e00 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 193, 7, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-success::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-success:hover::before {
+            left: 100%;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(40, 167, 69, 0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-danger::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-danger:hover::before {
+            left: 100%;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(220, 53, 69, 0.4);
+        }
+        
+        @media (max-width: 600px) {
+            .automation-buttons {
+                flex-direction: column;
+            }
+            
+            .automation-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PJe-Robotic-KZ</h1>
+            <p>Automação para inclusão de perfis em órgãos julgadores</p>
+        </div>
+        
+        <div class="form-container">
+            <div id="chromeStatus" class="chrome-status" style="display: none;">
+                <div id="chromeStatusText">🔄 Verificando status do Chrome...</div>
+            </div>
+            
+            <button type="button" class="btn-secondary" id="openChromeBtn">
+                🌐 Abrir Chrome para Automação
+            </button>
+            
+            <form id="automationForm">
+                <div class="form-group">
+                    <label for="pjeUrl">URL do PJE:</label>
+                    <input type="url" id="pjeUrl" name="pjeUrl" value="https://pje.trt15.jus.br/pjekz/pessoa-fisica" placeholder="https://pje.trt15.jus.br/pjekz/pessoa-fisica" required>
+                    <div class="help-text">URL completa da página de pessoa física do PJE (deixe o CPF vazio na URL)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cpf">CPF do Servidor:</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                    <div class="help-text">Digite o CPF do servidor que receberá os perfis</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="perfil">Perfil:</label>
+                    <select id="perfil" name="perfil" required>
+                        <option value="">Selecione...</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Assessor">Assessor</option>
+                        <option value="Diretor de Central de Atendimento">Diretor de Central de Atendimento</option>
+                        <option value="Diretor de Secretaria">Diretor de Secretaria</option>
+                        <option value="Estagiário Conhecimento">Estagiário Conhecimento</option>
+                        <option value="Estagiário de Central de Atendimento">Estagiário de Central de Atendimento</option>
+                        <option value="Secretário de Audiência">Secretário de Audiência</option>
+                        <option value="Servidor">Servidor</option>
+                    </select>
+                    <div class="help-text">Escolha o perfil que será atribuído ao servidor</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Órgãos Julgadores:</label>
+                    <div class="input-method-selector">
+                        <label class="radio-option">
+                            <input type="radio" name="inputMethod" value="manual" checked>
+                            <span>Digitação Manual</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="inputMethod" value="csv">
+                            <span>Upload de CSV</span>
+                        </label>
+                    </div>
+                    
+                    <div id="manual-input" class="input-section">
+                        <div style="position: relative;">
+                            <textarea id="orgaos" name="orgaos" placeholder="Digite os nomes dos órgãos julgadores, um por linha..."></textarea>
+                            <button type="button" id="normalizeBtn" class="normalize-btn" title="Normalizar nomes para o padrão PJe">
+                                🔧 Normalizar
+                            </button>
+                        </div>
+                        <div class="help-text">Digite um órgão julgador por linha. Use o botão "Normalizar" para converter automaticamente para o padrão PJe. Exemplo:<br>
+                        Vara do Trabalho de Orlândia<br>
+                        1ª VT de Ribeirão Preto<br>
+                        2ª Vara do Trabalho de Franca</div>
+                    </div>
+                    
+                    <div id="csv-input" class="input-section" style="display: none;">
+                        <div class="csv-upload-area">
+                            <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                            <div class="upload-zone" onclick="document.getElementById('csvFile').click()">
+                                <div class="upload-icon">📁</div>
+                                <div class="upload-text">
+                                    <strong>Clique para selecionar arquivo CSV</strong>
+                                    <br>ou arraste e solte aqui
+                                </div>
+                                <div class="upload-info">Máximo 5MB • Apenas arquivos .csv</div>
+                            </div>
+                            <div id="file-info" class="file-info" style="display: none;"></div>
+                        </div>
+                        
+                        <div class="csv-options">
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <label for="csvColumn">Coluna dos Órgãos:</label>
+                                    <input type="text" id="csvColumn" value="Orgao Julgador" placeholder="Nome ou índice da coluna">
+                                </div>
+                                <div class="form-col">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" id="csvHasHeader" checked>
+                                        <span>Arquivo possui cabeçalho</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn" id="submitBtn">
+                    🚀 Iniciar Automação
+                </button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="robot-animation">
+                    <div class="robot-head">
+                        <div class="robot-eyes">
+                            <div class="robot-eye"></div>
+                            <div class="robot-eye"></div>
+                        </div>
+                    </div>
+                    <div class="robot-body"></div>
+                    <div class="robot-arms">
+                        <div class="robot-arm left"></div>
+                        <div class="robot-arm right"></div>
+                    </div>
+                </div>
+                <div class="processing-text">🤖 Robô trabalhando...</div>
+                <div class="processing-subtitle">Processando automação, isso pode levar alguns minutos</div>
+                <div class="progress-dots">
+                    <div class="progress-dot"></div>
+                    <div class="progress-dot"></div>
+                    <div class="progress-dot"></div>
+                </div>
+            </div>
+            
+            <div class="results" id="results">
+                <h3>📊 Resultados da Automação</h3>
+                
+                <!-- Painel de Estatísticas Resumidas -->
+                <div class="summary-panel" id="summaryPanel" style="margin-bottom: 20px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; text-align: center;">
+                    <h4 style="margin: 0 0 15px 0; color: white;">🎯 Resumo Final</h4>
+                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px;">
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px; min-width: 120px;">
+                            <div style="font-size: 24px; font-weight: bold;" id="totalProcessed">0</div>
+                            <div style="font-size: 12px; opacity: 0.9;">Total Processados</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(40,167,69,0.3); padding: 15px; border-radius: 8px; min-width: 120px;">
+                            <div style="font-size: 24px; font-weight: bold;" id="totalSuccess">0</div>
+                            <div style="font-size: 12px; opacity: 0.9;">Novos Cadastros</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,193,7,0.3); padding: 15px; border-radius: 8px; min-width: 120px;">
+                            <div style="font-size: 24px; font-weight: bold;" id="totalExisting">0</div>
+                            <div style="font-size: 12px; opacity: 0.9;">Já Existiam</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(220,53,69,0.3); padding: 15px; border-radius: 8px; min-width: 120px;">
+                            <div style="font-size: 24px; font-weight: bold;" id="totalErrors">0</div>
+                            <div style="font-size: 12px; opacity: 0.9;">Erros</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px; font-size: 18px; font-weight: bold;" id="successRate">Taxa de Sucesso: 0%</div>
+                </div>
+                
+                <div class="success-list">
+                    <h4 style="color: #28a745;">✅ Órgãos Incluídos com Sucesso:</h4>
+                    <div id="successList"></div>
+                </div>
+                
+                <div class="existing-list" id="existingSection" style="display: none;">
+                    <h4 style="color: #ffc107;">🔄 Órgãos que Já Existiam no Sistema:</h4>
+                    <div id="existingList"></div>
+                </div>
+                
+                <div class="error-list">
+                    <h4 style="color: #dc3545;">❌ Órgãos Não Encontrados ou com Erro:</h4>
+                    <div id="errorList"></div>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 5px;">
+                    <strong>📈 Estatísticas Detalhadas:</strong>
+                    <div id="stats"></div>
+                </div>
+            </div>
+            
+            <!-- Controle da Automação -->
+            <div class="automation-control">
+                <h3>🎛️ Controle da Automação</h3>
+                <div class="automation-status">
+                    <div id="automation-status">🔵 Nenhuma automação ativa</div>
+                </div>
+                <div id="automation-controls" class="automation-buttons" style="display: none;">
+                    <button type="button" class="btn btn-warning" id="pause-btn" onclick="pauseAutomation()">⏸️ Pausar</button>
+                    <button type="button" class="btn btn-success" id="resume-btn" onclick="resumeAutomation()">▶️ Retomar</button>
+                    <button type="button" class="btn btn-danger" id="stop-btn" onclick="stopAutomation()">⏹️ Parar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Controle do Chrome Debug
+        document.getElementById('openChromeBtn').addEventListener('click', async function() {
+            const btn = this;
+            const statusDiv = document.getElementById('chromeStatus');
+            const statusText = document.getElementById('chromeStatusText');
+            
+            btn.disabled = true;
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'chrome-status';
+            statusText.textContent = '🔄 Iniciando Chrome em modo debug...';
+            
+            try {
+                const response = await fetch('/api/start-chrome', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    statusDiv.className = 'chrome-status success';
+                    statusText.innerHTML = '✅ Chrome iniciado com sucesso!<br>🔗 Debug disponível em: <a href="http://localhost:9222" target="_blank">http://localhost:9222</a>';
+                } else {
+                    statusDiv.className = 'chrome-status error';
+                    statusText.textContent = '❌ Erro ao iniciar Chrome: ' + (result.error || 'Erro desconhecido');
+                }
+            } catch (error) {
+                statusDiv.className = 'chrome-status error';
+                statusText.textContent = '❌ Erro de conexão: ' + error.message;
+            } finally {
+                btn.disabled = false;
+            }
+        });
+        
+        // Verificar status do Chrome ao carregar a página
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch('/api/chrome-status');
+                const result = await response.json();
+                
+                const statusDiv = document.getElementById('chromeStatus');
+                const statusText = document.getElementById('chromeStatusText');
+                
+                if (result.running) {
+                    statusDiv.style.display = 'block';
+                    statusDiv.className = 'chrome-status success';
+                    statusText.innerHTML = '✅ Chrome já está rodando em modo debug!<br>🔗 Debug disponível em: <a href="http://localhost:9222" target="_blank">http://localhost:9222</a>';
+                }
+            } catch (error) {
+                // Silencioso - Chrome não está rodando
+            }
+        });
+         
+         document.getElementById('automationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const inputMethod = document.querySelector('input[name="inputMethod"]:checked').value;
+            
+            if (inputMethod === 'manual') {
+                await submitManualForm(e);
+            } else {
+                await submitCSVForm(e);
+            }
+        });
+
+        async function submitManualForm(e) {
+            const pjeUrl = document.getElementById('pjeUrl').value;
+            const cpf = document.getElementById('cpf').value;
+            const perfil = document.getElementById('perfil').value;
+            const orgaos = document.getElementById('orgaos').value.split('\n').filter(o => o.trim());
+            
+            if (!pjeUrl || !cpf || !perfil || orgaos.length === 0) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            // Mostrar loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('submitBtn').disabled = true;
+            
+            try {
+                const response = await fetch('/api/run-automation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pjeUrl: pjeUrl,
+                        cpf: cpf,
+                        perfil: perfil,
+                        orgaos: orgaos
+                    })
+                });
+                
+                const result = await response.json();
+                
+                // Esconder loading
+                document.getElementById('loading').style.display = 'none';
+                
+                // Mostrar resultados
+                displayResults(result);
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('loading').style.display = 'none';
+                alert('Erro ao executar automação: ' + error.message);
+            } finally {
+                document.getElementById('submitBtn').disabled = false;
+            }
+        }
+
+        async function submitCSVForm(e) {
+            if (!selectedFile) {
+                alert('Por favor, selecione um arquivo CSV.');
+                return;
+            }
+            
+            const pjeUrl = document.getElementById('pjeUrl').value;
+            const cpf = document.getElementById('cpf').value;
+            const perfil = document.getElementById('perfil').value;
+            
+            if (!pjeUrl || !cpf || !perfil) {
+                alert('Por favor, preencha todos os campos obrigatórios!');
+                return;
+            }
+            
+            // Criar FormData para upload
+            const uploadData = new FormData();
+            uploadData.append('csvFile', selectedFile);
+            uploadData.append('pjeUrl', pjeUrl);
+            uploadData.append('cpf', cpf);
+            uploadData.append('perfil', perfil);
+            uploadData.append('column', document.getElementById('csvColumn').value);
+            uploadData.append('hasHeader', document.getElementById('csvHasHeader').checked.toString());
+            
+            console.log('Enviando dados (CSV):', {
+                filename: selectedFile.name,
+                size: selectedFile.size,
+                column: document.getElementById('csvColumn').value,
+                hasHeader: document.getElementById('csvHasHeader').checked
+            });
+            
+            // Mostrar loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('submitBtn').disabled = true;
+            
+            try {
+                const response = await fetch('/api/upload-csv', {
+                    method: 'POST',
+                    body: uploadData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    displayResults(result);
+                } else {
+                    throw new Error(result.error || 'Erro desconhecido');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao processar CSV: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        }
+        
+        function displayResults(result) {
+            console.log('🎯 Exibindo resultados da automação:', result);
+            
+            const successList = document.getElementById('successList');
+            const errorList = document.getElementById('errorList');
+            const existingList = document.getElementById('existingList');
+            const existingSection = document.getElementById('existingSection');
+            const stats = document.getElementById('stats');
+            
+            // Limpar listas
+            successList.innerHTML = '';
+            errorList.innerHTML = '';
+            existingList.innerHTML = '';
+            
+            // Calcular totais
+            const totalSuccess = result.sucessos ? result.sucessos.length : 0;
+            const totalErrors = result.erros ? result.erros.length : 0;
+            const totalExisting = result.jaIncluidos ? result.jaIncluidos.length : 0;
+            const totalPulados = result.pulados || 0;
+            const totalProcessed = totalSuccess + totalErrors + totalExisting + totalPulados;
+            
+            console.log('📊 Estatísticas calculadas:', {
+                totalSuccess,
+                totalErrors, 
+                totalExisting,
+                totalPulados,
+                totalProcessed
+            });
+            
+            // Atualizar painel de estatísticas resumidas
+            document.getElementById('totalProcessed').textContent = totalProcessed;
+            document.getElementById('totalSuccess').textContent = totalSuccess;
+            document.getElementById('totalExisting').textContent = totalExisting;
+            document.getElementById('totalErrors').textContent = totalErrors;
+            
+            // Calcular taxa de sucesso (considerando sucessos + já existentes como positivos)
+            const totalPositive = totalSuccess + totalExisting;
+            const successRate = totalProcessed > 0 ? ((totalPositive / totalProcessed) * 100).toFixed(1) : 0;
+            document.getElementById('successRate').textContent = `Taxa de Sucesso: ${successRate}%`;
+            
+            // Adicionar sucessos
+            if (result.sucessos && result.sucessos.length > 0) {
+                result.sucessos.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'success-item';
+                    div.style.cssText = 'padding: 8px; margin: 5px 0; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px; color: #155724;';
+                    div.innerHTML = `<strong>${index + 1}.</strong> ${item}`;
+                    successList.appendChild(div);
+                });
+            } else {
+                successList.innerHTML = '<div style="color: #666; font-style: italic; padding: 10px;">Nenhum órgão foi incluído com sucesso</div>';
+            }
+            
+            // Adicionar órgãos já existentes
+            if (result.jaIncluidos && result.jaIncluidos.length > 0) {
+                existingSection.style.display = 'block';
+                result.jaIncluidos.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'existing-item';
+                    div.style.cssText = 'padding: 8px; margin: 5px 0; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; color: #856404;';
+                    div.innerHTML = `<strong>${index + 1}.</strong> ${item}`;
+                    existingList.appendChild(div);
+                });
+            } else {
+                existingSection.style.display = 'none';
+            }
+            
+            // Adicionar erros
+            if (result.erros && result.erros.length > 0) {
+                result.erros.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'error-item';
+                    div.style.cssText = 'padding: 8px; margin: 5px 0; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; color: #721c24;';
+                    
+                    // Se o item é um objeto com erro detalhado
+                    if (typeof item === 'object' && item.orgao) {
+                        div.innerHTML = `<strong>${index + 1}.</strong> ${item.orgao}<br><small style="opacity: 0.8;">${item.erro || 'Erro não especificado'}</small>`;
+                    } else {
+                        div.innerHTML = `<strong>${index + 1}.</strong> ${item}`;
+                    }
+                    
+                    errorList.appendChild(div);
+                });
+            } else {
+                errorList.innerHTML = '<div style="color: #666; font-style: italic; padding: 10px;">Nenhum erro encontrado</div>';
+            }
+            
+            // Estatísticas detalhadas
+            let statsHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                    <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #28a745;">
+                        <strong style="color: #28a745;">✅ Novos Cadastros</strong><br>
+                        <span style="font-size: 18px; font-weight: bold;">${totalSuccess}</span>
+                    </div>
+                    <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #ffc107;">
+                        <strong style="color: #856404;">🔄 Já Existiam</strong><br>
+                        <span style="font-size: 18px; font-weight: bold;">${totalExisting}</span>
+                    </div>
+                    <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #dc3545;">
+                        <strong style="color: #dc3545;">❌ Erros</strong><br>
+                        <span style="font-size: 18px; font-weight: bold;">${totalErrors}</span>
+                    </div>
+                    <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #6c757d;">
+                        <strong style="color: #6c757d;">⏭️ Pulados</strong><br>
+                        <span style="font-size: 18px; font-weight: bold;">${totalPulados}</span>
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 10px; background: #e9ecef; border-radius: 5px;">
+                    <strong>📊 Total Processado: ${totalProcessed} órgãos</strong>
+                </div>
+            `;
+            
+            // Adicionar informações do CSV se disponível
+            if (result.csvInfo) {
+                statsHTML += `
+                    <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #007bff;">
+                        <h4 style="margin-bottom: 10px; color: #007bff;">📁 Informações do CSV</h4>
+                        <div><strong>Arquivo:</strong> ${result.csvInfo.filename}</div>
+                        <div><strong>Órgãos importados:</strong> ${result.csvInfo.totalImported}</div>
+                        ${result.csvInfo.totalLinhas ? `<div><strong>Total de linhas:</strong> ${result.csvInfo.totalLinhas}</div>` : ''}
+                        ${result.csvInfo.linhasValidas ? `<div><strong>Linhas válidas:</strong> ${result.csvInfo.linhasValidas}</div>` : ''}
+                        ${result.csvInfo.linhasIgnoradas ? `<div><strong>Linhas ignoradas:</strong> ${result.csvInfo.linhasIgnoradas}</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            stats.innerHTML = statsHTML;
+            
+            // Esconder spinner de carregamento
+            document.getElementById('loading').style.display = 'none';
+            
+            // Mostrar resultados
+            document.getElementById('results').style.display = 'block';
+            
+            // Notificação visual de conclusão
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+                z-index: 10000;
+                font-weight: bold;
+                animation: slideIn 0.5s ease-out;
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 20px;">🎉</span>
+                    <div>
+                        <div>Automação Concluída!</div>
+                        <div style="font-size: 12px; opacity: 0.9;">${totalProcessed} órgãos processados</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remover notificação após 5 segundos
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideOut 0.5s ease-in';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 500);
+                }
+            }, 5000);
+            
+            // Scroll suave para os resultados
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            
+            // Parar qualquer polling de status que possa estar rodando
+            if (automationStatusInterval) {
+                clearInterval(automationStatusInterval);
+                automationStatusInterval = null;
+            }
+            
+            // Atualizar status da automação para idle
+            const statusElement = document.getElementById('automation-status');
+            if (statusElement) {
+                statusElement.textContent = 'Automação concluída';
+                statusElement.style.color = '#28a745';
+            }
+        }
+        
+        // Aplicar máscara de CPF
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            e.target.value = value;
+        });
+
+        // Gerenciar seleção de método de entrada
+        let selectedFile = null;
+        
+        document.querySelectorAll('input[name="inputMethod"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const manualInput = document.getElementById('manual-input');
+                const csvInput = document.getElementById('csv-input');
+                const orgaosTextarea = document.getElementById('orgaos');
+                
+                if (this.value === 'manual') {
+                    manualInput.style.display = 'block';
+                    csvInput.style.display = 'none';
+                    orgaosTextarea.required = true;
+                    selectedFile = null;
+                } else {
+                    manualInput.style.display = 'none';
+                    csvInput.style.display = 'block';
+                    orgaosTextarea.required = false;
+                }
+            });
+        });
+
+        // Gerenciar upload de arquivo CSV
+        const csvFileInput = document.getElementById('csvFile');
+        const uploadZone = document.querySelector('.upload-zone');
+        const fileInfo = document.getElementById('file-info');
+
+        csvFileInput.addEventListener('change', handleFileSelect);
+
+        // Drag and drop
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                csvFileInput.files = files;
+                handleFileSelect();
+            }
+        });
+
+        function handleFileSelect() {
+            const file = csvFileInput.files[0];
+            
+            if (!file) {
+                selectedFile = null;
+                fileInfo.style.display = 'none';
+                return;
+            }
+
+            // Validar tipo de arquivo
+            if (!file.name.toLowerCase().endsWith('.csv')) {
+                alert('Por favor, selecione apenas arquivos CSV.');
+                csvFileInput.value = '';
+                return;
+            }
+
+            // Validar tamanho (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('O arquivo é muito grande. Máximo permitido: 5MB.');
+                csvFileInput.value = '';
+                return;
+            }
+
+            selectedFile = file;
+            showFileInfo(file);
+        }
+
+        function showFileInfo(file) {
+            const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+            
+            fileInfo.innerHTML = `
+                <div class="file-icon">📄</div>
+                <div class="file-details">
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-size">${sizeInMB} MB</div>
+                </div>
+                <button type="button" class="remove-file" onclick="removeFile()">Remover</button>
+            `;
+            
+            fileInfo.style.display = 'flex';
+        }
+
+        function removeFile() {
+            selectedFile = null;
+            csvFileInput.value = '';
+            fileInfo.style.display = 'none';
+        }
+
+        // Funcionalidade de normalização de órgãos
+        document.getElementById('normalizeBtn').addEventListener('click', async function() {
+            const btn = this;
+            const textarea = document.getElementById('orgaos');
+            const originalText = textarea.value.trim();
+            
+            if (!originalText) {
+                alert('Por favor, digite os nomes dos órgãos julgadores primeiro.');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = '🔄 Normalizando...';
+            
+            try {
+                const orgaos = originalText.split('\n').filter(linha => linha.trim());
+                const orgaosNormalizados = [];
+                
+                for (const orgao of orgaos) {
+                    const response = await fetch('/api/normalize-orgao', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ nome: orgao.trim() })
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        orgaosNormalizados.push(result.normalizado);
+                    } else {
+                        // Em caso de erro, manter o nome original
+                        orgaosNormalizados.push(orgao.trim());
+                    }
+                }
+                
+                // Atualizar o textarea com os nomes normalizados
+                textarea.value = orgaosNormalizados.join('\n');
+                
+                // Mostrar feedback visual
+                btn.textContent = '✅ Normalizado!';
+                btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+                
+                setTimeout(() => {
+                    btn.textContent = '🔧 Normalizar';
+                    btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Erro ao normalizar órgãos:', error);
+                alert('Erro ao normalizar os nomes dos órgãos. Tente novamente.');
+                
+                btn.textContent = '❌ Erro';
+                btn.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+                
+                setTimeout(() => {
+                    btn.textContent = '🔧 Normalizar';
+                    btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+                }, 2000);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        // Controle da automação
+        let automationStatusInterval = null;
+
+        async function pauseAutomation() {
+            try {
+                const response = await fetch('/api/automation/pause', {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(result.message);
+                    updateAutomationStatus();
+                } else {
+                    alert('Erro: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Erro ao pausar automação:', error);
+                alert('Erro ao pausar automação');
+            }
+        }
+
+        async function resumeAutomation() {
+            try {
+                const response = await fetch('/api/automation/resume', {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(result.message);
+                    updateAutomationStatus();
+                } else {
+                    alert('Erro: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Erro ao retomar automação:', error);
+                alert('Erro ao retomar automação');
+            }
+        }
+
+        async function stopAutomation() {
+            if (!confirm('Tem certeza que deseja parar a automação? Esta ação não pode ser desfeita.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/automation/stop', {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(result.message);
+                    updateAutomationStatus();
+                } else {
+                    alert('Erro: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Erro ao parar automação:', error);
+                alert('Erro ao parar automação');
+            }
+        }
+
+        async function updateAutomationStatus() {
+            try {
+                const response = await fetch('/api/automation/status');
+                const status = await response.json();
+                
+                const statusElement = document.getElementById('automation-status');
+                const controlsElement = document.getElementById('automation-controls');
+                
+                if (status.status === 'idle') {
+                    statusElement.innerHTML = '<span class="status-idle">🔵 Nenhuma automação ativa</span>';
+                    controlsElement.style.display = 'none';
+                    if (automationStatusInterval) {
+                        clearInterval(automationStatusInterval);
+                        automationStatusInterval = null;
+                    }
+                } else {
+                    let statusText = '';
+                    let statusClass = '';
+                    
+                    switch (status.status) {
+                        case 'running':
+                            statusText = '🟢 Automação em execução';
+                            statusClass = 'status-running';
+                            break;
+                        case 'paused':
+                            statusText = '🟡 Automação pausada';
+                            statusClass = 'status-paused';
+                            break;
+                        case 'stopped':
+                            statusText = '🔴 Automação parada';
+                            statusClass = 'status-stopped';
+                            break;
+                    }
+                    
+                    statusElement.innerHTML = `<span class="${statusClass}">${statusText}</span>`;
+                    
+                    if (status.processId) {
+                        statusElement.innerHTML += ` <small>(PID: ${status.processId})</small>`;
+                    }
+                    
+                    controlsElement.style.display = 'block';
+                    
+                    // Atualizar botões baseado no status
+                    const pauseBtn = document.getElementById('pause-btn');
+                    const resumeBtn = document.getElementById('resume-btn');
+                    const stopBtn = document.getElementById('stop-btn');
+                    
+                    pauseBtn.disabled = status.status !== 'running';
+                    resumeBtn.disabled = status.status !== 'paused';
+                    stopBtn.disabled = status.status === 'stopped';
+                    
+                    // Iniciar polling se não estiver ativo
+                    if (!automationStatusInterval && status.status !== 'stopped') {
+                        automationStatusInterval = setInterval(updateAutomationStatus, 2000);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao obter status da automação:', error);
+            }
+        }
+
+        // Atualizar status ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAutomationStatus();
+        });
+    </script>
+</body>
+</html>
