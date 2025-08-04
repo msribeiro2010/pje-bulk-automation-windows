@@ -3,6 +3,7 @@
 ## ⚠️ IMPORTANTE - DADOS SENSÍVEIS
 
 ### 🚨 Nunca incluir nos arquivos do projeto:
+
 - CPFs reais (de pessoas físicas)
 - Senhas ou credenciais
 - Tokens de API
@@ -10,6 +11,7 @@
 - Informações pessoais de usuários
 
 ### ✅ Dados seguros para documentação:
+
 - CPF de exemplo: `12345678901` (CPF fictício)
 - URLs genéricas: `https://pje.exemplo.jus.br/`
 - Nomes fictícios: `João da Silva`
@@ -17,7 +19,9 @@
 ## 🔐 Configuração de Ambiente
 
 ### Arquivo .env
+
 O arquivo `.env` deve conter apenas exemplos fictícios:
+
 ```env
 # EXEMPLO - Use dados fictícios
 PJE_URL=https://pje.exemplo.jus.br/pjekz/pessoa-fisica
@@ -27,7 +31,9 @@ FUNCAO_EXAMPLE=Servidor
 ```
 
 ### Arquivo .env.local (não versionado)
+
 Para uso pessoal, crie um arquivo `.env.local` com seus dados reais:
+
 ```env
 # DADOS REAIS - NÃO COMMITAR
 PJE_URL=https://pje.trt15.jus.br/pjekz/pessoa-fisica
@@ -72,6 +78,7 @@ Se dados sensíveis foram commitados:
 ## 📞 Contato de Segurança
 
 Para reportar vulnerabilidades ou exposição de dados:
+
 - Criar issue privada no repositório
 - Contactar mantenedores diretamente
 - Seguir práticas de divulgação responsável

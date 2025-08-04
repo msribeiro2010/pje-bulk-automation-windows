@@ -3,6 +3,7 @@
 ## ⚡ Setup em 5 Minutos
 
 ### 1. Instalar Node.js
+
 ```
 1. Acesse: https://nodejs.org/
 2. Baixe a versão LTS (recomendada)
@@ -11,6 +12,7 @@
 ```
 
 ### 2. Preparar o Projeto
+
 ```cmd
 # Abra o Prompt de Comando na pasta do projeto
 cd C:\caminho\para\pje-bulk-automation-windows
@@ -23,6 +25,7 @@ npm run build
 ```
 
 ### 3. Executar
+
 ```cmd
 # Método 1: Clique duplo no arquivo
 start-pje-bulk.bat
@@ -34,12 +37,14 @@ start start-pje-bulk.bat
 ## 🔧 Configuração do Chrome
 
 ### Automática (Recomendada)
+
 ```cmd
 # Execute o script
 start-chrome-debug.bat
 ```
 
 ### Manual
+
 ```cmd
 # Feche todas as instâncias do Chrome
 taskkill /f /im chrome.exe
@@ -71,6 +76,7 @@ LOGIN_WAIT_TIME=60
 ## ❗ Problemas Comuns
 
 ### Node.js não encontrado
+
 ```cmd
 # Verificar instalação
 node --version
@@ -80,6 +86,7 @@ npm --version
 ```
 
 ### Chrome não conecta
+
 ```cmd
 # Finalizar Chrome
 taskkill /f /im chrome.exe
@@ -89,6 +96,7 @@ start-chrome-debug.bat
 ```
 
 ### Porta 3000 ocupada
+
 ```cmd
 # Verificar o que está usando a porta
 netstat -ano | findstr :3000
@@ -98,6 +106,7 @@ taskkill /f /pid [PID]
 ```
 
 ### Antivírus bloqueando
+
 - Adicione exceção para a pasta do projeto
 - Adicione exceção para Node.js
 - Adicione exceção para Chrome com debugging

@@ -3,6 +3,7 @@
 ## 📋 Análise de Compatibilidade
 
 ### ✅ Componentes Compatíveis com Windows
+
 - **Node.js e TypeScript**: Totalmente compatível
 - **Playwright**: Suporte nativo ao Windows
 - **Express.js**: Funciona perfeitamente no Windows
@@ -10,6 +11,7 @@
 - **Lógica de automação**: Independente de sistema operacional
 
 ### ❌ Componentes Específicos do macOS (Removidos)
+
 - Scripts shell (.sh) - substituídos por .bat/.cmd
 - Aplicativos .app do macOS
 - Caminhos específicos do macOS no código
@@ -18,11 +20,14 @@
 ## 🚀 Configuração no Windows
 
 ### Pré-requisitos
+
 1. **Node.js** (versão 16 ou superior)
+
    - Download: https://nodejs.org/
    - Verificar instalação: `node --version`
 
 2. **Git** (opcional, para clonagem)
+
    - Download: https://git-scm.com/download/win
 
 3. **Google Chrome** (recomendado)
@@ -31,11 +36,13 @@
 ### Instalação
 
 1. **Extrair/Clonar o projeto**
+
    ```cmd
    cd C:\caminho\para\seu\projeto
    ```
 
 2. **Instalar dependências**
+
    ```cmd
    npm install
    ```
@@ -48,6 +55,7 @@
 ## 🔧 Scripts para Windows
 
 ### 1. Script para iniciar Chrome em modo debug
+
 Crie o arquivo `start-chrome-debug.bat`:
 
 ```batch
@@ -70,6 +78,7 @@ pause
 ```
 
 ### 2. Script para iniciar Firefox em modo debug
+
 Crie o arquivo `start-firefox-debug.bat`:
 
 ```batch
@@ -91,6 +100,7 @@ pause
 ```
 
 ### 3. Script principal de inicialização
+
 Crie o arquivo `start-pje-bulk.bat`:
 
 ```batch
@@ -167,6 +177,7 @@ pause >nul
 ```
 
 ### 4. Script de teste de produção
+
 Crie o arquivo `test-production.bat`:
 
 ```batch
@@ -213,16 +224,20 @@ Atualize os scripts no `package.json` para Windows:
 ## 🔧 Configurações Específicas do Windows
 
 ### Caminhos do Chrome
+
 O script detecta automaticamente o Chrome nos seguintes locais:
+
 - `C:\Program Files\Google\Chrome\Application\chrome.exe`
 - `C:\Program Files (x86)\Google\Chrome\Application\chrome.exe`
 - `%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe`
 
 ### Caminhos do Firefox
+
 - `C:\Program Files\Mozilla Firefox\firefox.exe`
 - `C:\Program Files (x86)\Mozilla Firefox\firefox.exe`
 
 ### Variáveis de Ambiente
+
 Crie um arquivo `.env` baseado no `.env.example`:
 
 ```env
@@ -243,11 +258,13 @@ FIREFOX_PATH=C:\Program Files\Mozilla Firefox\firefox.exe
 ### Método 1: Interface Gráfica (Recomendado)
 
 1. **Execute o script principal**
+
    ```cmd
    start-pje-bulk.bat
    ```
 
 2. **Inicie o Chrome em modo debug** (em outra janela)
+
    ```cmd
    start-chrome-debug.bat
    ```
@@ -274,6 +291,7 @@ npm run connect-dynamic "https://pje.trt15.jus.br/pjekz/pessoa-fisica" "12345678
 ## 🔍 Solução de Problemas no Windows
 
 ### Chrome não conecta
+
 ```cmd
 REM Finalizar todos os processos do Chrome
 taskkill /f /im chrome.exe
@@ -282,14 +300,17 @@ start-chrome-debug.bat
 ```
 
 ### Erro de permissão
+
 - Execute o Prompt de Comando como Administrador
 - Verifique se o antivírus não está bloqueando os scripts
 
 ### Erro de codificação de caracteres
+
 - Os scripts usam `chcp 65001` para UTF-8
 - Certifique-se de que o terminal suporta UTF-8
 
 ### Firewall/Antivírus
+
 - Adicione exceção para Node.js
 - Adicione exceção para Chrome com debugging
 - Libere as portas 3000 e 9222
@@ -334,6 +355,7 @@ pje-bulk-automation-windows/
 ## 📞 Suporte
 
 Em caso de problemas:
+
 1. Verifique os logs no terminal
 2. Confirme se todas as dependências estão instaladas
 3. Teste com dados de exemplo primeiro

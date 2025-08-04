@@ -15,16 +15,19 @@ Automação para inclusão em massa de perfis de servidores em órgãos julgador
 ## 🛠️ Configuração Inicial
 
 1. **Instale as dependências:**
+
    ```bash
    npm install
    ```
 
 2. **Inicie o Chrome em modo debug:**
+
    ```bash
    npm run chrome-debug
    ```
 
 3. **Inicie o servidor web:**
+
    ```bash
    npm run server
    ```
@@ -41,6 +44,7 @@ Automação para inclusão em massa de perfis de servidores em órgãos julgador
 2. **Acesse a interface web** em `http://localhost:3000`
 
 3. **Preencha os campos:**
+
    - **URL do PJE**: URL completa da página pessoa física (ex: `https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situacao=1`)
    - **CPF do Servidor**: CPF que receberá os perfis
    - **Perfil**: Escolha o perfil na lista
@@ -53,16 +57,19 @@ Automação para inclusão em massa de perfis de servidores em órgãos julgador
 ## 📋 Exemplo de Uso
 
 ### URL do PJE:
+
 ```
 https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situacao=1
 ```
 
 ### CPF:
+
 ```
 12345678901
 ```
 
 ### Órgãos Julgadores (um por linha):
+
 ```
 Vara do Trabalho de Orlândia
 1ª VT de Ribeirão Preto
@@ -81,6 +88,7 @@ npm run connect-dynamic "https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&t
 ### Método Legado (usando .env)
 
 1. **Configure o arquivo .env:**
+
    ```bash
    cp .env.example .env
    ```
@@ -93,6 +101,7 @@ npm run connect-dynamic "https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&t
 ## 📊 Relatórios
 
 Os resultados são salvos automaticamente em:
+
 - `data/outputs/relatorio.csv` - Relatório em CSV
 - `data/outputs/relatorio.json` - Relatório detalhado em JSON
 - `data/outputs/ok_*.png` - Screenshots de sucessos
@@ -129,6 +138,7 @@ data/
 ### Chrome não conecta
 
 **Windows:**
+
 ```cmd
 REM Finalizar todos os processos do Chrome
 taskkill /f /im chrome.exe
@@ -137,6 +147,7 @@ start-chrome-debug.bat
 ```
 
 **Unix/macOS:**
+
 ```bash
 # Mate todos os processos do Chrome e tente novamente
 pkill -f chrome
@@ -144,11 +155,13 @@ npm run chrome-debug-unix
 ```
 
 ### Servidor não encontrado
+
 - Verifique se o CPF está correto
 - Confirme se está logado no PJE
 - Verifique se a URL está correta
 
 ### Órgão não encontrado
+
 - Verifique a grafia exata do órgão
 - Confirme se o órgão existe no sistema
 - Veja os screenshots de erro em `data/outputs/`
