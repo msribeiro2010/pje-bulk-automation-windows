@@ -59,15 +59,12 @@ https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situ
 
 ### CPF:
 ```
-530.361.406-97
+530.XXX.XXX-XX
 ```
 
 ### Órgãos Julgadores (um por linha):
 ```
-Vara do Trabalho de Orlândia
-1ª VT de Ribeirão Preto
-2ª Vara do Trabalho de Franca
-EXE1 - Ribeirão Preto
+Vara do Trabalho de Teste
 ```
 
 ## 🔧 Métodos Alternativos
