@@ -59,7 +59,7 @@ https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situ
 
 ### CPF:
 ```
-530.361.406-97
+12345678901
 ```
 
 ### Órgãos Julgadores (um por linha):
@@ -75,7 +75,7 @@ EXE1 - Ribeirão Preto
 ### Linha de Comando (Conexão Dinâmica)
 
 ```bash
-npm run connect-dynamic "https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situacao=1" "530.361.406-97" "Servidor" "Vara do Trabalho de Orlândia,1ª VT de Ribeirão Preto"
+npm run connect-dynamic "https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situacao=1" "12345678901" "Servidor" "Vara do Trabalho de Orlândia,1ª VT de Ribeirão Preto"
 ```
 
 ### Método Legado (usando .env)

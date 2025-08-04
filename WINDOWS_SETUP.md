@@ -54,7 +54,7 @@ Crie um arquivo `.env` na raiz do projeto:
 
 ```env
 PJE_URL=https://pje.trt15.jus.br/pjekz/pessoa-fisica
-SERVIDORA_CPF=12345678901
+   - CPF (sem pontos/traços): `12345678901`
 PERFIL=Servidor
 BROWSER_TYPE=chrome
 LOGIN_WAIT_TIME=60

@@ -57,7 +57,7 @@ https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situ
 
 ### CPF:
 ```
-530.361.406-97
+530.361.406-97 -> 12345678901
 ```
 
 ### Órgãos (um por linha):

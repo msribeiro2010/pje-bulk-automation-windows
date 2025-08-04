@@ -268,7 +268,7 @@ REM Iniciar o servidor
 npm run server
 
 REM Em outro terminal, conectar dinamicamente
-npm run connect-dynamic "https://pje.trt15.jus.br/pjekz/pessoa-fisica" "530.361.406-97" "Servidor" "Vara do Trabalho de Orlândia,1ª VT de Ribeirão Preto"
+npm run connect-dynamic "https://pje.trt15.jus.br/pjekz/pessoa-fisica" "12345678901" "Servidor" "Vara do Trabalho de Orlândia,1ª VT de Ribeirão Preto"
 ```
 
 ## 🔍 Solução de Problemas no Windows

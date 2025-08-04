@@ -138,7 +138,7 @@ async function main() {
   
   if (args.length < 4) {
     console.log('❌ Uso: ts-node connect-dynamic.ts <pjeUrl> <cpf> <perfil> <orgao1,orgao2,...>');
-    console.log('📝 Exemplo: ts-node connect-dynamic.ts "https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situacao=1" "530.361.406-97" "Servidor" "Vara do Trabalho de Orlândia,1ª VT de Ribeirão Preto"');
+    console.log('📝 Exemplo: ts-node connect-dynamic.ts "https://pje.trt15.jus.br/pjekz/pessoa-fisica?pagina=1&tamanhoPagina=10&cpf=&situacao=1" "12345678901" "Servidor" "Vara do Trabalho de Orlândia,1ª VT de Ribeirão Preto"');
     process.exit(1);
   }
   
