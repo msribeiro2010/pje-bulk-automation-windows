@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-08-01T16:44:53.904Z",
+  "config": {
+    "cpf": "530.361.406-97",
+    "perfil": "Secretário de Audiência",
+    "totalOrgaos": 1
+  },
+  "results": [
+    {
+      "orgao": "1ª Vara Do Trabalho De De Ribeirão Preto",
+      "status": "Sucesso"
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "sucessos": 1,
+    "erros": 0,
+    "pulados": 0,
+    "jaIncluidos": 0,
+    "totalValidos": 1,
+    "estatisticas": {
+      "percentualSucesso": 100,
+      "percentualJaExistiam": 0,
+      "percentualErros": 0
+    }
+  },
+  "detalhes": {
+    "orgaosCadastrados": [
+      "1ª Vara Do Trabalho De De Ribeirão Preto"
+    ],
+    "orgaosJaExistiam": [],
+    "orgaosComErro": [],
+    "orgaosPulados": []
+  }
+}
